@@ -1,11 +1,12 @@
-if (window.location.host == "www.spiegel.de"){
+if (window.location.host == "www.spiegel.de") {
     spiegel();
-} else if(window.location.host == "www.bergedorfer-zeitung.de"){
+} else if (window.location.host == "www.bergedorfer-zeitung.de") {
     bergische();
 }
 
-function spiegel(){
-    document.getElementsByTagName("body")[0].className = document.getElementsByTagName("body")[0].className.replace(/\bunpurchased\b/,'');
+function spiegel() {
+
+    document.getElementsByTagName("body")[0].className = document.getElementsByTagName("body")[0].className.replace(/\bunpurchased\b/, '');
     texts = document.getElementsByClassName("obfuscated");
     text_count = texts.length;
     var escape;
@@ -38,20 +39,37 @@ function spiegel(){
                 }
             }
         }
+
+        $("div").each(function () {
+            var element = $(this),
+                position = element.css("position"),
+                width = element.css("width"),
+                filter = element.css("filter");
+            webkitFilter = element.css("-webkit-filter");
+
+            if (position == "absolute" && width == "640px") {
+                element.remove();
+            }
+            if (filter == "blur(3px)" || webkitFilter == "blur(3px)") {
+                var elem = element.attr("class");
+                $("." + elem).attr("style", "-webkit-filter:none!important;filter:none!important;opacity:1!important");
+            }
+        })
         texts[i].innerHTML = new_content;
     }
+
 }
 
 function bergische() {
     texts = document.getElementsByTagName("div");
-	text_count = texts.length;
-	var target = 0;
-	for (i = 0; i < text_count; i++) {
-		if(texts[i].innerHTML == "Jetzt lesen, später zahlen"){
-			target = i - 4;
-			break;
-		}
-	}
-	texts[target].innerHTML = "";
-	document.getElementsByTagName("body")[0].className = document.getElementsByTagName("body")[0].className.replace(/\bunpurchased\b/,'');
+    text_count = texts.length;
+    var target = 0;
+    for (i = 0; i < text_count; i++) {
+        if (texts[i].innerHTML == "Jetzt lesen, später zahlen") {
+            target = i - 4;
+            break;
+        }
+    }
+    texts[target].innerHTML = "";
+    document.getElementsByTagName("body")[0].className = document.getElementsByTagName("body")[0].className.replace(/\bunpurchased\b/, '');
 }
