@@ -59,16 +59,7 @@ function spiegel() {
         if (position == "absolute" && width == "640px") {
             element.parentNode.removeChild(element);
         }
-        if (filter == "blur(3px)" || webkitFilter == "blur(3px)") {
-            var previousSibling = element.previousSibling,
-                nextSibling = element.nextSibling;
-            previousSibling.parentNode.removeChild(previousSibling);
-            nextSibling.parentNode.removeChild(nextSibling);
-            element.parentNode.removeAttribute("class");
-            element.parentNode.parentNode.removeAttribute("class");
-            element.removeAttribute("class");
-        }
-        if (textShadow == "0px 0px 5px #000") {
+        if ((filter == "blur(3px)" || webkitFilter == "blur(3px)") || textShadow == "0px 0px 5px #000") {
             var previousSibling = element.previousSibling,
                 nextSibling = element.nextSibling;
             previousSibling.parentNode.removeChild(previousSibling);
