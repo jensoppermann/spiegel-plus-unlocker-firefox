@@ -21,18 +21,18 @@ function spiegel() {
     for (i = 0; i < text_count; i++) {
         new_content = '';
         for (j = 0; j < texts[i].innerHTML.length; j++) {
-            if (texts[i].innerHTML.charCodeAt(j) == 60 && texts[i].innerHTML.charCodeAt(j + 1) == 97) { // <a
+            if (texts[i].innerHTML.charCodeAt(j) == 60 && texts[i].innerHTML.charCodeAt(j + 1) == 97) {
                 escape = true;
-            } else if (texts[i].innerHTML.charCodeAt(j - 1) == 62 && texts[i].innerHTML.charCodeAt(j - 2) == 97 && texts[i].innerHTML.charCodeAt(j - 3) == 47 && texts[i].innerHTML.charCodeAt(j - 4) == 60) { // </a>
+            } else if (texts[i].innerHTML.charCodeAt(j - 1) == 62 && texts[i].innerHTML.charCodeAt(j - 2) == 97 && texts[i].innerHTML.charCodeAt(j - 3) == 47 && texts[i].innerHTML.charCodeAt(j - 4) == 60) {
                 escape = false;
             }
-            if (texts[i].innerHTML.charCodeAt(j) == 60 && texts[i].innerHTML.charCodeAt(j + 1) == 98) { // <b
+            if (texts[i].innerHTML.charCodeAt(j) == 60 && texts[i].innerHTML.charCodeAt(j + 1) == 98) {
                 escape = true;
-            } else if (texts[i].innerHTML.charCodeAt(j) == 60 && texts[i].innerHTML.charCodeAt(j + 1) == 47 && texts[i].innerHTML.charCodeAt(j + 2) == 98) { // </b
+            } else if (texts[i].innerHTML.charCodeAt(j) == 60 && texts[i].innerHTML.charCodeAt(j + 1) == 47 && texts[i].innerHTML.charCodeAt(j + 2) == 98) {
                 escape = true;
-            } else if (texts[i].innerHTML.charCodeAt(j - 3) == 47 && texts[i].innerHTML.charCodeAt(j - 2) == 98 && texts[i].innerHTML.charCodeAt(j - 1) == 62) { // /b>
+            } else if (texts[i].innerHTML.charCodeAt(j - 3) == 47 && texts[i].innerHTML.charCodeAt(j - 2) == 98 && texts[i].innerHTML.charCodeAt(j - 1) == 62) {
                 escape = false;
-            } else if (texts[i].innerHTML.charCodeAt(j - 3) == 60 && texts[i].innerHTML.charCodeAt(j - 2) == 98 && texts[i].innerHTML.charCodeAt(j - 1) == 62) { // <b>
+            } else if (texts[i].innerHTML.charCodeAt(j - 3) == 60 && texts[i].innerHTML.charCodeAt(j - 2) == 98 && texts[i].innerHTML.charCodeAt(j - 1) == 62) {
                 escape = false;
             }
             if (escape) {
@@ -54,18 +54,28 @@ function spiegel() {
             position = style.getPropertyValue('position') ? style.getPropertyValue('position') : "",
             width = style.getPropertyValue('width') ? style.getPropertyValue('width') : "",
             filter = style.getPropertyValue('filter') ? style.getPropertyValue('filter') : "",
-            webkitFilter = style.getPropertyValue('-webkit-filter') ? style.getPropertyValue('-webkit-filter') : "";
-        textShadow = style.getPropertyValue('text-shadow') ? style.getPropertyValue('text-shadow') : "";
+            webkitFilter = style.getPropertyValue('-webkit-filter') ? style.getPropertyValue('-webkit-filter') : "",
+            textShadow = style.getPropertyValue('text-shadow') ? style.getPropertyValue('text-shadow') : "";
         if (position == "absolute" && width == "640px") {
             element.parentNode.removeChild(element);
         }
         if (filter == "blur(3px)" || webkitFilter == "blur(3px)") {
-            var elem = element.className;
-            element.setAttribute("style", "-webkit-filter:none!important;-ms-filter:none!important;filter:none!important;opacity:1!important;-webkit-user-select: all!important;user-select: all!important;-moz-user-select: all!important;-ms-user-select:all!important;");
+            var previousSibling = element.previousSibling,
+                nextSibling = element.nextSibling;
+            previousSibling.parentNode.removeChild(previousSibling);
+            nextSibling.parentNode.removeChild(nextSibling);
+            element.parentNode.removeAttribute("class");
+            element.parentNode.parentNode.removeAttribute("class");
+            element.removeAttribute("class");
         }
         if (textShadow == "0px 0px 5px #000") {
-            var elem = element.className;
-            element.setAttribute("style", "text-shadow:none!important;opacity:1!important;color:black!important;-ms-user-select:all!important;pointer-events:all!important;filter:none!important;");
+            var previousSibling = element.previousSibling,
+                nextSibling = element.nextSibling;
+            previousSibling.parentNode.removeChild(previousSibling);
+            nextSibling.parentNode.removeChild(nextSibling);
+            element.parentNode.removeAttribute("class");
+            element.parentNode.parentNode.removeAttribute("class");
+            element.removeAttribute("class");
         }
     }
 
